@@ -2,6 +2,8 @@
 app-version = "0.20.0"
 agp = "9.1.1"
 android-compileSdk = "37"
+# sdkmanager package version; API 37 is published as platforms;android-37.0.
+android-sdkPlatform = "37.0"
 android-targetSdk = "37"
 android-minSdk = "26"
 android-versionCode = "25"

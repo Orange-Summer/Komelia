@@ -64,8 +64,8 @@ jobs:
       - name: Install project Android platform
         shell: bash
         run: |
-          compile_sdk=$(python3 -c 'import tomllib; print(tomllib.load(open("gradle/libs.versions.toml", "rb"))["versions"]["android-compileSdk"])')
-          sdkmanager "platforms;android-${compile_sdk}"
+          sdk_platform=$(python3 -c 'import tomllib; print(tomllib.load(open("gradle/libs.versions.toml", "rb"))["versions"]["android-sdkPlatform"])')
+          sdkmanager "platforms;android-${sdk_platform}"
           echo "ANDROID_SDK_PATH=${ANDROID_HOME}" >> "$GITHUB_ENV"
           echo "ANDROID_NDK_PATH=${ANDROID_HOME}/ndk/${NDK_VERSION}" >> "$GITHUB_ENV"
 
