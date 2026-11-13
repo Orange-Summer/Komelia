@@ -17,6 +17,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     autopoint \
     autotools-dev \
     libtool \
+    libltdl-dev \
     texinfo \
     pkg-config \
     libglib2.0-dev \

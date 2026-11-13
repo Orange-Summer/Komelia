@@ -82,6 +82,8 @@ Open **Actions → Android APK → a successful run → Artifacts** and download
 `komelia-android-aarch64-debug-<run number>`. Extract the archive to get the APK.
 The default architecture is `aarch64` (ARM64 phones and tablets). Use **Run workflow**
 to select `armv7a`, `x86_64`, or `x86` instead. Artifacts are kept for 14 days.
+The `reader-test-reports-<run number>` artifact contains test results, not an APK,
+and is uploaded even if a later build step fails.
 
 These builds use Android's debug signing and do not require signing secrets.
 They cannot update an installation signed with a different key, such as the
