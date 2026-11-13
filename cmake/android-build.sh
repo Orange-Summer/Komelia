@@ -136,7 +136,7 @@ cmake ../.. -G Ninja \
     -DANDROID_NDK_PATH="${ANDROID_NDK_PATH}" \
     -DHOST_FLAG=--host="$AUTOCONF_HOST"
 
-cmake --build . -j $(nproc)
+cmake --build . --parallel "${KOMELIA_BUILD_JOBS:-$(nproc)}"
 
 cp "$CLANG_LIBOMP_PATH" ./sysroot/lib
 for lib in sysroot/lib/*so; do

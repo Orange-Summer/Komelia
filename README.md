@@ -71,6 +71,24 @@ Then choose your packaging option:
 - `./gradlew :desktopMsi` output in `./komelia-app/desktopApp/build/compose/binaries`
 
 ## Android App
+### GitHub Actions
+
+The `Android APK` workflow runs on pushes, pull requests, and manual dispatches.
+It builds the embedded EPUB readers, runs the reader JVM tests, compiles the native
+libraries, and packages a debug APK. Native libraries and Gradle dependencies are
+cached between runs.
+
+Open **Actions → Android APK → a successful run → Artifacts** and download
+`komelia-android-aarch64-debug-<run number>`. Extract the archive to get the APK.
+The default architecture is `aarch64` (ARM64 phones and tablets). Use **Run workflow**
+to select `armv7a`, `x86_64`, or `x86` instead. Artifacts are kept for 14 days.
+
+These builds use Android's debug signing and do not require signing secrets.
+They cannot update an installation signed with a different key, such as the
+official release. A clean runner may also generate a new debug key for each run.
+
+### Local build
+
 Replace <*arch*> placeholder with your target architecture.\
 Available architectures include:  `aarch64`, `armv7a`, `x86_64`, `x86`
 
