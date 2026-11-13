@@ -84,6 +84,7 @@ private fun PagedDialogContent(
         mapOf(
             listOf("←") to "Previous page",
             listOf("→") to "Next page",
+            listOf("Swipe left / right") to "Turn pages (follows reading direction)",
             listOf("Home") to "First page",
             listOf("End") to "Last page",
             if (platform == PlatformType.WEB_KOMF) {

@@ -20,6 +20,7 @@ import androidx.compose.ui.input.key.isAltPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -73,7 +74,23 @@ fun BoxScope.PagedReaderContent(
         contentAreaSize = currentContainerSize,
         isSettingsMenuOpen = showSettingsMenu,
         onSettingsMenuToggle = { onShowSettingsMenuChange(!showSettingsMenu) },
-        modifier = Modifier.onKeyEvent { event ->
+        modifier = Modifier.pointerInput(readingDirection, showSettingsMenu, screenScaleState) {
+            if (!showSettingsMenu) {
+                detectPageSwipes(
+                    canSwipe = {
+                        // Keep horizontal dragging available whenever the image is wider than the viewport.
+                        val limits = screenScaleState.offsetXLimits.value
+                        limits.start == limits.endInclusive
+                    },
+                    onSwipe = { left ->
+                        coroutineScope.launch {
+                            if (left == (readingDirection == LEFT_TO_RIGHT)) pagedReaderState.nextPage()
+                            else pagedReaderState.previousPage()
+                        }
+                    }
+                )
+            }
+        }.onKeyEvent { event ->
             pagedReaderOnKeyEvents(
                 event = event,
                 readingDirection = readingDirection,
