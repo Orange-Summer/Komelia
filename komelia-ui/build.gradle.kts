@@ -13,6 +13,15 @@ plugins {
 group = "io.github.snd-r.komelia.ui"
 version = "unspecified"
 
+compose.resources {
+    customDirectory(
+        sourceSetName = "commonMain",
+        directoryProvider = layout.dir(
+            rootProject.tasks.named<Sync>("buildEpubReaders").map { it.destinationDir }
+        )
+    )
+}
+
 kotlin {
     android {
         namespace = "io.github.snd_r.komelia.ui"

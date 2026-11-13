@@ -27,7 +27,7 @@ val androidx86BuildDir = "$projectDir/cmake/build-android-x86"
 val resourcesDir = "$projectDir/komelia-infra/jni/src/jvmMain/resources/"
 val androidJniLibsDir = "$projectDir/komelia-infra/jni/src/androidMain/jniLibs"
 val composeDistroResourcesDir = "$projectDir/komelia-app/desktopApp/desktopUnpackedResources"
-val composeCommonResources = "$projectDir/komelia-ui/src/commonMain/composeResources/files"
+val generatedComposeResources = "$projectDir/komelia-ui/build/generated/commonMainComposeResources"
 
 val epubReader = "$rootDir/komelia-epub-reader"
 val epubReaderKomga = "$epubReader/komga-webui"
@@ -314,9 +314,13 @@ tasks.register<Sync>("buildEpubReaders") {
     dependsOn("komgaNpmBuild")
     dependsOn("ttsuNpmBuild")
 
-    from("$epubReaderKomga/dist/")
-    from("$epubReaderTtsu/dist/")
-    into(composeCommonResources)
+    into(generatedComposeResources)
+    // A custom Compose resource directory replaces the default, so retain static resources too.
+    from("$projectDir/komelia-ui/src/commonMain/composeResources")
+    into("files") {
+        from("$epubReaderKomga/dist/")
+        from("$epubReaderTtsu/dist/")
+    }
 }
 
 tasks.register<Exec>("cmakeSystemDepsConfigure") {

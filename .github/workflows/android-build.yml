@@ -70,7 +70,7 @@ jobs:
           echo "ANDROID_NDK_PATH=${ANDROID_HOME}/ndk/${NDK_VERSION}" >> "$GITHUB_ENV"
 
       - name: Build EPUB readers and run reader tests
-        run: ./gradlew --no-daemon --no-configuration-cache --max-workers=2 buildEpubReaders :komelia-ui:jvmTest
+        run: ./gradlew --no-daemon --no-configuration-cache --max-workers=2 :komelia-ui:jvmTest
 
       - name: Fingerprint native submodule revisions
         id: native-sources
