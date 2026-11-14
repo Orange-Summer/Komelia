@@ -53,6 +53,12 @@ kotlin {
 
 val sqliteExtract: Configuration by configurations.creating
 dependencies { sqliteExtract(libs.sqlite.xerial.jdbc) }
+
+// Only the selected architecture's extraction task is scheduled by the root copy task.
+tasks.matching { it.name == "mergeAndroidMainJniLibFolders" }.configureEach {
+    mustRunAfter(tasks.matching { it.name.endsWith("-ExtractSqliteLib") })
+}
+
 tasks.register<Sync>("android-arm64-ExtractSqliteLib") {
     val sqliteJar = configurations.getByName("sqliteExtract").first()
     val file = zipTree(sqliteJar.absolutePath)

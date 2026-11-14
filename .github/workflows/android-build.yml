@@ -81,7 +81,7 @@ jobs:
 
       - name: Restore compiled native libraries
         id: native-cache
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: cmake/build-android-${{ env.NATIVE_ARCH }}/sysroot/lib
           key: android-native-v1-${{ runner.os }}-${{ runner.arch }}-${{ env.NATIVE_ARCH }}-ndk${{ env.NDK_VERSION }}-${{ steps.native-sources.outputs.hash }}-${{ hashFiles('.gitmodules', 'CMakeLists.txt', 'cmake/**', 'komelia-infra/**/native/**') }}
@@ -104,6 +104,13 @@ jobs:
       - name: Build native image and inference libraries
         if: steps.native-cache.outputs.cache-hit != 'true'
         run: ./cmake/android-build.sh "$NATIVE_ARCH"
+
+      - name: Save compiled native libraries
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: cmake/build-android-${{ env.NATIVE_ARCH }}/sysroot/lib
+          key: ${{ steps.native-cache.outputs.cache-primary-key }}
 
       - name: Package Android debug APK
         run: ./gradlew --no-daemon --no-configuration-cache --max-workers=2 "android-${NATIVE_ARCH}_copyJniLibs" androidDebug

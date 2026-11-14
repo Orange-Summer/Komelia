@@ -8,6 +8,13 @@ plugins {
 group = "io.github.snd_r.komelia.infra.jni"
 version = "unspecified"
 
+// Architectures are selected by invoking their copy task; order the merge after those selected tasks.
+tasks.matching { it.name == "mergeAndroidMainJniLibFolders" }.configureEach {
+    mustRunAfter(rootProject.tasks.matching {
+        it.name.startsWith("android-") && it.name.endsWith("_copyJniLibs")
+    })
+}
+
 kotlin {
     android {
         namespace = "io.github.snd_r.komelia.infra.jni"
