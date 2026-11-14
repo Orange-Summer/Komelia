@@ -95,6 +95,12 @@ android {
         }
     }
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            // Debug builds use a separate signing key and cannot install upstream updates.
+            buildConfigField("boolean", "ENABLE_SELF_UPDATES", "false")
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true

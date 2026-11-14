@@ -86,8 +86,12 @@ The `reader-test-reports-<run number>` artifact contains test results, not an AP
 and is uploaded even if a later build step fails.
 
 These builds use Android's debug signing and do not require signing secrets.
-They cannot update an installation signed with a different key, such as the
-official release. A clean runner may also generate a new debug key for each run.
+They install as **Komelia Debug** with application ID `io.github.snd_r.komelia.debug`,
+alongside the official app. Each app keeps its own settings and offline files;
+sign in to your server again in the debug app. Upstream self-updates are disabled
+for debug builds because their signing key differs from the official release.
+A clean runner may generate a new debug key for each run, so a later debug APK
+may not be able to update an older debug installation.
 
 ### Local build
 
